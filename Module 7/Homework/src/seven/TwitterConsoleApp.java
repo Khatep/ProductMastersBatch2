@@ -1,7 +1,6 @@
 package seven;
 import java.util.*;
 
-
 public class TwitterConsoleApp {
   private static final Scanner scanner = new Scanner(System.in);
   private static final TwitterService twitterService = new TwitterService();
@@ -14,7 +13,7 @@ public class TwitterConsoleApp {
     System.out.print("Введите ваше имя: ");
     String userName = scanner.nextLine().trim();
     User currentUser = new User(userName);
-    System.out.println("Добро пожаловать, " + currentUser.getName() + "!");
+    System.out.println("Добро пожаловать, " + currentUser.name() + "!");
 
     twitterService.initializePosts();
 
@@ -22,6 +21,12 @@ public class TwitterConsoleApp {
       showMenu();
       int choice = getIntInput();
       switch (choice) {
+        case 1 -> writePost(currentUser);
+        case 2 -> likePost();
+        case 3 -> repostPost(currentUser);
+        case 4 -> showPosts(twitterService.getAllPosts());
+        case 5 -> showPopularPosts();
+        case 6 -> showPosts(twitterService.getUserPosts(currentUser));
         case 7 -> {
           System.out.println("Выход...");
           return;
@@ -31,15 +36,58 @@ public class TwitterConsoleApp {
     }
   }
 
+  private void writePost(User user) {
+    System.out.print("Введите текст поста (макс. 280 символов): ");
+    String content = scanner.nextLine();
+    if (content.length() > 280) {
+      System.out.println("Пост слишком длинный.");
+      return;
+    }
+    twitterService.createPost(user, content);
+    System.out.println("Пост добавлен!");
+  }
+
+  private void likePost() {
+    System.out.print("Введите ID поста для лайка: ");
+    long id = getIntInput();
+    if (!twitterService.likePost(id)) {
+      System.out.println("Пост не найден.");
+    } else {
+      System.out.println("Пост лайкнут.");
+    }
+  }
+
+  private void repostPost(User user) {
+    System.out.print("Введите ID поста для репоста: ");
+    long id = getIntInput();
+    if (!twitterService.repostPost(user, id)) {
+      System.out.println("Пост не найден.");
+    } else {
+      System.out.println("Пост репостнут.");
+    }
+  }
+
+  private void showPosts(List<Post> posts) {
+    if (posts.isEmpty()) {
+      System.out.println("Нет постов для отображения.");
+      return;
+    }
+    posts.forEach(System.out::println);
+  }
+
+  private void showPopularPosts() {
+    System.out.print("Введите количество популярных постов: ");
+    int count = getIntInput();
+    showPosts(twitterService.getPopularPosts(count));
+  }
+
   private int getIntInput() {
-    int input;
     try {
-      input = Integer.parseInt(scanner.nextLine().trim());
+      return Integer.parseInt(scanner.nextLine().trim());
     } catch (NumberFormatException e) {
-      System.out.println("Некорректный ввод.");
+      System.out.println("Ошибка ввода числа.");
       return -1;
     }
-    return input;
   }
 
   private static void showMenu() {
@@ -53,5 +101,4 @@ public class TwitterConsoleApp {
     System.out.println("7. Выход");
     System.out.print("Выберите действие: ");
   }
-
 }
