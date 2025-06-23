@@ -1,4 +1,6 @@
-package org.example;
+package medium_and_hard.service.impl;
+
+import medium_and_hard.service.PaymentProcessor;
 
 import java.math.BigDecimal;
 
