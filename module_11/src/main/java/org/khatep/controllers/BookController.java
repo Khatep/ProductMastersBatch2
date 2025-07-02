@@ -1,7 +1,8 @@
-package org.example;
+package org.khatep.controllers;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.khatep.services.BookService;
+import org.khatep.domain.Book;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

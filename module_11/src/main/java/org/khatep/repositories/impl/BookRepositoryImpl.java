@@ -1,5 +1,7 @@
-package org.example;
+package org.khatep.repositories.impl;
 
+import org.khatep.repositories.BookRepository;
+import org.khatep.domain.Book;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

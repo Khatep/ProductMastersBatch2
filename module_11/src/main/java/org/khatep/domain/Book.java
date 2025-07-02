@@ -1,4 +1,4 @@
-package org.example;
+package org.khatep.domain;
 
 import lombok.*;
 

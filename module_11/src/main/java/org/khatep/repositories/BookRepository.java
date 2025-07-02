@@ -1,4 +1,6 @@
-package org.example;
+package org.khatep.repositories;
+
+import org.khatep.domain.Book;
 
 import java.util.List;
 
