@@ -27,6 +27,12 @@ public class FlowerController {
         return flowerService.getFlowerById(id);
     }
 
+    @GetMapping("/by-category/{categoryId}")
+    public List<FlowerDto> getFlowersByCategoryId(@PathVariable Integer categoryId) {
+        return flowerService.getFlowersByCategoryId(categoryId);
+    }
+
+
     @PostMapping()
     public FlowerDto createFlower(
             @RequestBody FlowerDto flower
