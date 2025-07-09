@@ -33,4 +33,14 @@ public class FlowerController {
     ) {
         return flowerService.createFlower(flower);
     }
+
+    @PutMapping("/{id}")
+    public FlowerDto updateFlower(@PathVariable Integer id, @RequestBody FlowerDto flowerDto) {
+        return flowerService.updateFlower(id, flowerDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteFlower(@PathVariable Integer id) {
+        flowerService.deleteFlowerById(id);
+    }
 }

@@ -44,4 +44,33 @@ public class FlowerServiceImpl implements FlowerService {
         return mapper.fromEntityToDto(flower);
     }
 
+    @Override
+    public void deleteFlowerById(Integer id) {
+        if (!flowerRepository.existsById(id)) {
+            throw new FlowerNotFoundException("Flower is not exists");
+        }
+        flowerRepository.deleteById(id);
+    }
+
+    @Override
+    public List<FlowerDto> getFlowersByCategoryId(Integer categoryId) {
+        return flowerRepository.findAllByCategory_Id(categoryId)
+                .stream()
+                .map(mapper::fromEntityToDto)
+                .toList();
+    }
+
+    @Override
+    public FlowerDto updateFlower(Integer id, FlowerDto flowerDto) {
+        Flower flower = flowerRepository.findById(id)
+                .orElseThrow(() -> new FlowerNotFoundException("Flower is not exists"));
+
+        flower.setName(flowerDto.getName());
+        flower.setPrice(flowerDto.getPrice());
+        flower.setSize(flowerDto.getSize());
+        flower.setCategory(categoryService.getCategoryById(flowerDto.getCategory().getId()));
+
+        Flower updated = flowerRepository.save(flower);
+        return mapper.fromEntityToDto(updated);
+    }
 }
