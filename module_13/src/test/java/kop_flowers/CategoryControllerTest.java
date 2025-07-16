@@ -1,4 +1,4 @@
-package kz.kop_flowers;
+package kop_flowers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kz.kop_flowers.controller.CategoryController;
