@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.example.model.StudentAttendanceDto;
 import org.example.util.AttendanceNameUtil;
 
@@ -55,12 +56,18 @@ public class StudentAttendanceServlet extends HttpServlet {
         out.println("<body>");
         out.println("<h2>Посещение лекций</h2>");
 
-        out.println("<form action='/ServletPractice/attendance' method='POST'>");
-        out.println("ФИО: <input type='text' name='name' required><br>");
-        out.println("Группа: <input type='text' name='groupName' required><br>");
-        out.println("Посетил: <select name='isAttended'><option value='true'>Да</option><option value='false'>Нет</option></select><br>");
-        out.println("<input type='submit' value='Добавить'>");
-        out.println("</form>");
+        HttpSession session = req.getSession(false);
+        String role = (session != null) ? (String) session.getAttribute("role") : null;
+
+        if ("teacher".equalsIgnoreCase(role)) {
+            out.println("<form action='/ServletPractice/attendance' method='POST'>");
+            out.println("ФИО: <input type='text' name='name' required><br>");
+            out.println("Группа: <input type='text' name='groupName' required><br>");
+            out.println("Посетил: <select name='isAttended'><option value='true'>Да</option><option value='false'>Нет</option></select><br>");
+            out.println("<input type='submit' value='Добавить'>");
+            out.println("</form>");
+        }
+
 
         out.println("<table>");
         out.println("    <tr>\n" +
